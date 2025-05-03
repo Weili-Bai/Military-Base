@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Database Application</title>
+
+  <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
+  <link rel="stylesheet" href="styles.css">
+
+  <title>Database Application</title>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+</head>
+<body>
+   <!-- ===================================================================================== -->
+    <!-- Display the current status of the database connection. 
+         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
+         -->
+  <h1>Database Connection Status:
+    <!-- An in-line placeholder to display connection status. -->
+    <span id="dbStatus"></span>
+    <!-- A loading GIF, will be hided once get the status. -->
+    <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+  </h1>
+  <hr> <!-- ========================================================================= -->
+</head>
+<body>
+  <header class="hero-section">
+    <div class="hero-overlay">
+      <h1>Welcome to Our Database Application</h1>
+      <p>Your reliable data management solution.</p>
+    </div>
+  </header>
+  <h2>Initialize Database</h2>
+  <button id="runInit">Reset &amp; Populate Database</button>
+  <div id="runInitMsg"></div>
+  <hr> <!-- ========================================================================= -->
+  
+  <h2>Insert GetBudget Record</h2>
+  <form id="insertGetBudget">
+    Budget Document Number: <input type="number" id="insertBudgetDocNum" required><br><br>
+    Budget Date (YYYY-MM-DD): <input type="text" id="insertBudgetDate" required><br><br>
+    Budget Amount: <input type="number" step="0.01" id="insertBudgetAmount" required><br><br>
+    Budget Description: <input type="text" id="insertBudgetDescription" required><br><br>
+    Base Location: <input type="text" id="insertBudgetBaseLocation" required><br><br>
+    <button type="submit">Insert GetBudget Record</button>
+  </form>
+  <div id="insertBudgetResultMsg"></div>
+  <hr> <!-- ========================================================================= -->
+  
+  <h2>Update GetBudget Record</h2>
+  <form id="updateGetBudget">
+    Budget Document Number: <input type="number" id="updateBudgetDocNum" required><br><br>
+    New Budget Date (YYYY-MM-DD): <input type="text" id="updateBudgetDate"><br><br>
+    New Budget Amount: <input type="number" step="0.01" id="updateBudgetAmount"><br><br>
+    New Budget Description: <input type="text" id="updateBudgetDescription"><br><br>
+    New Base Location: <input type="text" id="updateBudgetBaseLocation"><br><br>
+    <button type="submit">Update GetBudget Record</button>
+  </form>
+  <div id="updateBudgetResultMsg"></div>
+  <hr>
+  
+  <h2>Delete Duty Record</h2>
+  <form id="deleteDuty">
+    Duty ID: <input type="number" id="deleteDutyID" required><br><br>
+    <button type="submit">Delete Duty Record</button>
+  </form>
+  <div id="deleteDutyResultMsg"></div>
+  <hr> <!-- ========================================================================= -->
+
+  <h2>Search Soldier Records</h2>
+  <p class="search-tip">Tip: To search for partial matches, add % before and after your keyword (e.g., %Lee%).</p>
+<form id="selectSoldier">
+  <div id="conditionsContainer">
+    <div class="conditionBlock">
+      <select class="attribute">
+        <option value="SoldierID">SoldierID</option>
+        <option value="Rank">Rank</option>
+        <option value="Sex">Sex</option>
+        <option value="ServiceYear">ServiceYear</option>
+        <option value="Age">Age</option>
+        <option value="SoldierName">SoldierName</option>
+      </select>
+      <select class="operator">
+        <option value="=">=</option>
+        <option value="!=">!=</option>
+        <option value="<"><</option>
+        <option value="<="><=</option>
+        <option value=">">></option>
+        <option value=">=">>=</option>
+        <option value="LIKE">LIKE</option>
+      </select>
+      <input type="text" class="value" placeholder="Value" required>
+    </div>
+  </div>
+  <br>
+  <button type="button" id="addCondition">Add Condition</button>
+  <br><br>
+  <button type="submit">Search Soldier</button>
+</form>
+<div id="selectSoldierResult"></div>
+
+<hr> <!-- ========================================================================= -->
+
+<h2>Project Soldier Attributes</h2>
+<form id="projectSoldier">
+  <div class="attribute-item">
+    <label for="soldierID">SoldierID</label>
+    <div class="checkbox-box">
+      <input type="checkbox" id="soldierID" name="attribute" value="SoldierID" checked>
+    </div>
+  </div>
+
+  <div class="attribute-item">
+    <label for="rank">Rank</label>
+    <div class="checkbox-box">
+      <input type="checkbox" id="rank" name="attribute" value="Rank" checked>
+    </div>
+  </div>
+
+  <div class="attribute-item">
+    <label for="sex">Sex</label>
+    <div class="checkbox-box">
+      <input type="checkbox" id="sex" name="attribute" value="Sex" checked>
+    </div>
+  </div>
+
+  <div class="attribute-item">
+    <label for="serviceYear">ServiceYear</label>
+    <div class="checkbox-box">
+      <input type="checkbox" id="serviceYear" name="attribute" value="ServiceYear" checked>
+    </div>
+  </div>
+
+  <div class="attribute-item">
+    <label for="age">Age</label>
+    <div class="checkbox-box">
+      <input type="checkbox" id="age" name="attribute" value="Age" checked>
+    </div>
+  </div>
+
+  <div class="attribute-item">
+    <label for="soldierName">SoldierName</label>
+    <div class="checkbox-box">
+      <input type="checkbox" id="soldierName" name="attribute" value="SoldierName" checked>
+    </div>
+  </div>
+
+  <br>
+  <button type="submit">Project Soldier Attributes</button>
+</form>
+<div id="projectSoldierResult"></div>
+<hr>
+
+<!-- ========================================================================= -->
+
+
+<h2>Join Query: Soldier & Combat Records by Award</h2>
+<form id="joinQuery">
+  <label for="awardInput">Award:</label>
+  <input type="text" id="awardInput" required>
+  <button type="submit">Search</button>
+</form>
+<div id="joinQueryResult"></div>
+<hr> <!-- ========================================================================= -->
+
+
+<h2>Aggregation: Soldier Count and Average Age by Rank</h2>
+<button id="aggregationSoldierBtn">Run Aggregation Query</button>
+<div id="aggregationSoldierResult"></div>
+<hr>  <!-- ========================================================================= -->
+
+
+<h2>Aggregation with HAVING: Soldier Groups with > 1 Member</h2>
+<button id="aggregationHavingBtn">Run Aggregation with HAVING Query</button>
+<div id="aggregationHavingResult"></div>
+<hr> <!-- ========================================================================= -->
+
+
+<h2>Nested Aggregation: Rank with Minimum Average Age</h2>
+<button id="nestedAggBtn">Run Nested Aggregation Query</button>
+<div id="nestedAggResult"></div>
+<hr> <!-- ========================================================================= -->
+
+<h2>Division Query: Soldiers Who Worked in Every Duty</h2>
+<button id="divisionQueryBtn">Run Division Query</button>
+<div id="divisionQueryResult"></div>
+<hr> <!-- ========================================================================= -->
+
+  
+  <h2>View Database Table</h2>
+  <label for="tableSelect">Select a table:</label>
+  <select id="tableSelect">
+    <option value="Duty">Duty</option>
+    <option value="Soldier">Soldier</option>
+    <option value="Base">Base</option>
+    <option value="GetBudget">GetBudget</option>
+    <option value="HasCombatRecord">HasCombatRecord</option>
+    <option value="ContainsBuildingAndFields">ContainsBuildingAndFields</option>
+    <option value="Vehicle">Vehicle</option>
+    <option value="Weapon">Weapon</option>
+    <option value="Manage">Manage</option>
+    <option value="Use">Use</option>
+    <option value="MountsOn">MountsOn</option>
+    <option value="Ammo">Ammo</option>
+    <option value="Drive">Drive</option>
+    <option value="Barracks">Barracks</option>
+    <option value="Storage">Storage</option>
+    <option value="IsIn">IsIn</option>
+    <option value="RetiredSoldier">RetiredSoldier</option>
+    <option value="DeadSoldier">DeadSoldier</option>
+    <option value="ActiveSoldier">ActiveSoldier</option>
+    <option value="EarnsSalary">EarnsSalary</option>
+    <option value="Maintains">Maintains</option>
+    <option value="Keep">Keep</option>
+    <option value="Shoot">Shoot</option>
+    <option value="WorkAs">WorkAs</option>
+    <option value="Store">Store</option>
+  </select>
+  <button id="viewTableButton">View Table</button>
+  <br><br>
+  <div id="tableData"></div>
+  
+  <hr> <!-- ========================================================================= -->
+
+  <!-- ===================================================================================== -->
+  <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
+  <script src="scripts.js"></script>
+</body>
+</html>
